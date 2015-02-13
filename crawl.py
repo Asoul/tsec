@@ -24,7 +24,7 @@ for stock_id in stock_id_list:
         month = str(ym_pair[1]).zfill(2)
         print stock_id, year, month
 
-        page = requests.get('http://www.twse.com.tw/ch/trading/exchange/STOCK_DAY/genpage/Report'+year+month+'/'+year+month+'_F3_1_8_'+stock_id+'.php')
+        page = requests.get('http://www.twse.com.tw/ch/trading/exchange/STOCK_DAY/genpage/Report'+year+month+'/'+year+month+'_F3_1_8_'+stock_id+'.php?STK_NO='+stock_id+'&myear='+year+'&mmon='+month)
         tree = html.fromstring(page.text)
 
         try:
