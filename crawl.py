@@ -10,6 +10,8 @@ f = open('stocknumber.csv', 'rb')
 for row in csv.reader(f, delimiter=','):
     stock_id_list.append(row[0])
 
+error_log = open('error.log', 'a')
+
 for stock_id in stock_id_list:
 
     fo = open('data/'+stock_id+'.csv', 'wb')
@@ -88,5 +90,7 @@ for stock_id in stock_id_list:
 
 
         except Exception as e:
-            print '[ERROR] stock_id =',stock_id, ', year =', year, ', month =', month, ', tr_index =', tr_index,', td_index =', td_index
+            err_str = '[ERROR] stock_id = '+str(stock_id)+', year = '+str(year)+', month = '+str(month)+', tr_index = '+str(tr_index)+', td_index = '+str(td_index)
+            print err_str
+            error_log.write(err_str+'\n')
             print e
