@@ -17,6 +17,8 @@ for stock_id in stock_id_list:
     fo = open('data/'+stock_id+'.csv', 'wb')
     cw = csv.writer(fo, delimiter=',')
 
+    all_rows = []
+
     # For each page
     date_range = [[x, y] for x in range(2015, 0, -1) for y in range(12, 0, -1)]
     for ym_pair in date_range[10:]:
@@ -85,8 +87,7 @@ for stock_id in stock_id_list:
                 rows.append(row)
 
             rows.reverse()
-            for row in rows:
-                cw.writerow(row)
+            all_rows.extend(rows)
 
 
         except Exception as e:
@@ -94,3 +95,7 @@ for stock_id in stock_id_list:
             print err_str
             error_log.write(err_str+'\n')
             print e
+
+    all_rows.reverse()
+    for row in all_rows:
+        cw.writerow(row)
