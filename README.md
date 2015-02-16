@@ -1,15 +1,14 @@
 # Taiwan Stock Exchange Crawler
 
-## Usage
+## 用法
 
 ### 直接下載我抓好的資料
 
 1. [直接下載 ZIP](https://github.com/Asoul/twse/archive/master.zip)
 
-2. <code>git clone https://github.com/Asoul/twse.git</code> 
+2. 或來個 command line： `git clone https://github.com/Asoul/twse.git`
 
-抓完
-後，`data` 內就是所有資料囉
+抓完後，`data` 內就是所有資料囉
 
 ### 沒有的抓全部、有的更新
 
@@ -19,11 +18,12 @@
 
 1. 先去 `http://www.twse.com.tw/ch/trading/exchange/MI_INDEX/MI_INDEX.php` 下載昨日全部資料
 2. 更改 `getCurrentList.py` 中的 `FILE_NAME`, `FIRST_INDEX`, 和 `LAST_INDEX`
-3. <code>python getCurrentList.py</code> 就可以在 `stocknumber.csv` 中看到昨天為止還存活的清單了。
+3. `python getCurrentList.py` 後，就可以在 `stocknumber.csv` 中看到昨天為止還存活的清單了，再接續用 `python crawl.py` 抓。
 
 ### 爬蟲須知
 
-1. 爬蟲會連續抓到過去某一個月無資料就停止
+1. 爬蟲會連續抓到過去某一個月無資料就停止，所以可能有分段超過一個月的股票舊的就不會被抓到。
+2. 最近放年假了，資料停在 `02/13`，年後應該會每日下午定時更新，祝大家新年快樂。
 
 ## 資料格式
 
@@ -38,6 +38,7 @@
 ## TODOs
 
 1. 即時報價（http://mis.twse.com.tw/stock/fibest.jsp）
+2. 可以把分段超過一個月的股票也抓一抓
 
 ## 資料來源
 

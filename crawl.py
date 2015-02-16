@@ -7,13 +7,16 @@ import csv
 from os.path import isfile, join, getsize
 from datetime import date
 
+# 從 stocknumber.csv 中讀出要爬的股票清單
 stock_id_list = []
 f = open('stocknumber.csv', 'rb')
 for row in csv.reader(f, delimiter=','):
     stock_id_list.append(row[0])
 
+# 錯誤輸出檔案
 error_log = open('error.log', 'a')
 
+# 輸入股票代號、年份、月份，輸出由遠至近的該月資料清單
 def get_single_page(stock_id, year, month):
 
     page = requests.get('http://www.twse.com.tw/ch/trading/exchange/STOCK_DAY/genpage/Report'+year+month+'/'+year+month+'_F3_1_8_'+stock_id+'.php?STK_NO='+stock_id+'&myear='+year+'&mmon='+month)
