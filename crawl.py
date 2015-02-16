@@ -8,8 +8,7 @@ from os.path import isfile, join, getsize
 from datetime import date
 
 stock_id_list = []
-# f = open('stocknumber.csv', 'rb')
-f = open('empty_list.txt', 'rb')
+f = open('stocknumber.csv', 'rb')
 for row in csv.reader(f, delimiter=','):
     stock_id_list.append(row[0])
 
@@ -147,7 +146,7 @@ for stock_id in stock_id_list:
         all_rows = []
 
         # For each page
-        # TODO: 改成可以從任何月份開始，目前是2015/02
+        # TODO: 改成可以從任何月份開始，目前是2015/02 -> 其實就直接抓我的就好了吧(茶)
         date_range = [[x, y] for x in range(2015, 0, -1) for y in range(12, 0, -1)]
         for ym_pair in date_range[10:]:
             year = str(ym_pair[0]).zfill(4)
