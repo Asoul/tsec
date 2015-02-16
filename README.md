@@ -8,13 +8,9 @@
 2. 更改 `getCurrentList.py` 中的 `FILE_NAME`, `FIRST_INDEX`, 和 `LAST_INDEX`
 3. <code>python getCurrentList.py</code> 就可以在 `stocknumber.csv` 中看到昨天為止還存活的清單了。
 
-### 抓全部（會把舊的檔案刪掉）
+### 沒有的抓全部、有的更新
 
 <code>python crawl.py</code>
-
-### 抓完全部後重新排序（因為抓完會倒著排）
-
-### 只更新
 
 ### 直接下載我抓好的資料
 
@@ -26,9 +22,8 @@
 
 ## TODOs
 
-1. 讓他可以只更新
-2. http://mis.twse.com.tw/stock/fibest.jsp
-3. 處理沒有內容的檔案
+1. http://mis.twse.com.tw/stock/fibest.jsp
+2. 處理沒有內容的檔案
 
 ## 資料來源
 

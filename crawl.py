@@ -4,11 +4,12 @@
 from lxml import html
 import requests
 import csv
-from os.path import isfile, join
+from os.path import isfile, join, getsize
 from datetime import date
 
 stock_id_list = []
-f = open('stocknumber.csv', 'rb')
+# f = open('stocknumber.csv', 'rb')
+f = open('empty_list.txt', 'rb')
 for row in csv.reader(f, delimiter=','):
     stock_id_list.append(row[0])
 
@@ -84,18 +85,12 @@ def get_single_page(stock_id, year, month):
     return rows
 
 for stock_id in stock_id_list:
-    if isfile('data/'+stock_id+'.csv'): # file exist
+
+    if isfile('data/'+stock_id+'.csv') and getsize('data/'+stock_id+'.csv') > 0: # file exist and not empty
 
         fi = open('data/'+stock_id+'.csv', 'rb')
-        noContentFlag = True
         for row in csv.reader(fi, delimiter=','):
-            noContentFlag = False
             pass
-        if noContentFlag:
-            # 舊的檔案沒有內容
-            error_log.write(stock_id+", no content\n")
-            print stock_id, "no content error"
-            continue
         if type(row[0]) != str or len(row[0].split('/')) != 3:
             # 舊的資料格式錯誤
             error_log.write(stock_id+", date format error\n")
