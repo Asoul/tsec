@@ -27,7 +27,8 @@
 ## TODOs
 
 1. 讓他可以只更新
-2. 讓他可以相反排序
+2. http://mis.twse.com.tw/stock/fibest.jsp
+3. 處理沒有內容的檔案
 
 ## 資料來源
 
