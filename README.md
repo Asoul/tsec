@@ -60,5 +60,3 @@
 ## 贊助我
 
 歡迎大家贊助辛苦大學生 >＿＿＿＿<
-
-[![PayPal donate button](https://img.shields.io/badge/paypal-donate-yellow.svg)](https://www.paypal.com/cgi-bin/webscr?cmd=_xclick&business=XJNKKFG2QKZRC&lc=TW&item_name=%e8%b4%8a%e5%8a%a9%e8%be%9b%e8%8b%a6%e5%a4%a7%e5%ad%b8%e7%94%9f&button_subtype=services&currency_code=TWD&bn=PP%2dBuyNowBF%3abtn_donateCC_LG%2egif%3aNonHosted "Donate once-off to this project using Paypal")
