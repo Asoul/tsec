@@ -1,5 +1,7 @@
 # Taiwan Stock Exchange Crawler
 
+這是一個去爬 [台灣證券交易所](http://www.twse.com.tw/) 的爬蟲，秉持著 open data 的理念，公開爬蟲公開資料最安心。
+
 ## 用法
 
 ### 直接下載我抓好的資料
@@ -23,7 +25,8 @@
 ### 爬蟲須知
 
 1. 爬蟲會連續抓到過去某一個月無資料就停止，所以可能有分段超過一個月的股票舊的就不會被抓到。
-2. 最近放年假了，資料停在 `02/13`，年後應該會每日下午定時更新，祝大家新年快樂。
+2. 有時候爬蟲戳一些不常被搜尋的股票會戳不到東西，目前不知原因為何，目前解法是開 Sikuli 把那些戳不到的清單戳一遍。
+3. 最近放年假了，資料停在 `02/13`，年後應該會每日下午定時更新，祝大家新年快樂。
 
 ## 資料格式
 
@@ -53,3 +56,15 @@
 有 Bug 麻煩跟我說：`azx754@gmail.com`
 
 最後更新時間：`2015/02/17`
+
+## 贊助我
+
+歡迎大家贊助辛苦大學生 >＿＿＿＿<
+
+<form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_top">
+<input type="hidden" name="cmd" value="_s-xclick">
+<input type="hidden" name="encrypted" value="-----BEGIN PKCS7-----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-----END PKCS7-----
+">
+<input type="image" src="https://www.paypal.com/zh_HK/i/btn/btn_donateCC_LG.gif" border="0" name="submit" alt="PayPal － 更安全、更簡單的線上付款方式！">
+<img alt="" border="0" src="https://www.paypalobjects.com/zh_TW/i/scr/pixel.gif" width="1" height="1">
+</form>
