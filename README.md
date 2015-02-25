@@ -42,6 +42,7 @@
 
 1. 即時報價（http://mis.twse.com.tw/stock/fibest.jsp）
 2. 可以把分段超過一個月的股票也抓一抓
+3. Validate 抓下來的資料
 
 ## 資料來源
 
