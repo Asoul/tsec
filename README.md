@@ -56,8 +56,3 @@
 有 Bug 麻煩跟我說：`azx754@gmail.com`
 
 最後更新時間：`2015/02/17`
-
-## 我的其他專案
-
-- [即時台股爬蟲](https://github.com/Asoul/tsrtc)
-
