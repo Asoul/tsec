@@ -22,6 +22,7 @@ for stock_id in stock_id_list:
     for row in  csv.reader(open('data/'+stock_id+'.csv', 'rb'), delimiter=','):
         row_count += 1
         # 交易日期、成交股數、成交金額、開盤價、最高價、最低價、收盤價、漲跌價差、成交筆數，共 9 欄。
+
         if len(row) != 9:
             perror('%s %d : row length error' % (stock_id, row_count))
         
@@ -47,17 +48,26 @@ for stock_id in stock_id_list:
         if row[3] == '--' and row[4] == '--' and row[5] == '--' and row[6] == '--':
             continue
 
+        # 神奇的都是 0
+        if (row[1] == '0.0' and row[2] == '0.0' and row[3] == '0.0' and row[4] == '0.0' and
+            row[5] == '0.0' and row[6] == '0.0' and row[7] == '0.0' and row[8] == '0.0'):
+           continue
+
+        # 有時候會只有交易股數和金額和漲跌價差
+        if row[3] == '0.0' and row[4] == '0.0' and row[5] == '0.0' and row[6] == '0.0':
+            continue
+
         # 其他錯誤
-        if float(row[1]) < 0:
-            perror('%s %d : volume error' % (stock_id, row_count))
-        if float(row[2]) < 0:
-            perror('%s %d : money error' % (stock_id, row_count))
-        if float(row[3]) < 0:
-            perror('%s %d : start error' % (stock_id, row_count))
+        if float(row[1]) <= 0:
+            perror('%s %d : volume error %f' % (stock_id, row_count, float(row[1])))
+        if float(row[2]) <= 0:
+            perror('%s %d : money error %f' % (stock_id, row_count, float(row[2])))
+        if float(row[3]) <= 0:
+            perror('%s %d : start error %f' % (stock_id, row_count, float(row[3])))
         if float(row[4]) < float(row[5]):
-            perror('%s %d : high low error' % (stock_id, row_count))
-        if float(row[6]) < 0:
-            perror('%s %d : close error' % (stock_id, row_count))
-        if float(row[8]) < 0:
-            perror('%s %d : trade error' % (stock_id, row_count))
+            perror('%s %d : high low error %f < %f' % (stock_id, row_count, float(row[4]), float(row[5])))
+        if float(row[6]) <= 0:
+            perror('%s %d : close error %f' % (stock_id, row_count, float(row[6])))
+        if float(row[8]) <= 0:
+            perror('%s %d : trade error %f' % (stock_id, row_count, float(row[8])))
 
