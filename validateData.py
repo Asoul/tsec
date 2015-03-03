@@ -71,3 +71,5 @@ for stock_id in stock_id_list:
         if float(row[8]) <= 0:
             perror('%s %d : trade error %f' % (stock_id, row_count, float(row[8])))
 
+    if (date(year+1911, month, day) - date.today()).days != 0:
+        perror('%s : Not Today' % (stock_id))
