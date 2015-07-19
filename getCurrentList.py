@@ -5,7 +5,7 @@ import csv
 
 FIRST_INDEX = '0050'
 LAST_INDEX = '9958'
-FILE_NAME = 'A11220150212ALL.csv' 
+FILE_NAME = 'A11220150717ALL.csv' 
 
 f = open(FILE_NAME, 'rb')
 
