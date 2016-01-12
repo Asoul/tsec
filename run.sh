@@ -1,5 +1,5 @@
 #!/bin/bash
-cd /root/tsec/
+cd /home/asoul/tsec/
 /usr/bin/python crawl.py
 /usr/bin/git add .
 /usr/bin/git commit -m "daily update"
