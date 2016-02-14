@@ -1,36 +1,38 @@
 # Taiwan Stock Exchange Crawler
 
-這是一個去爬 [台灣證券交易所](http://www.twse.com.tw/) 的爬蟲，秉持著 open data 的理念，公開爬蟲公開資料最安心。
+這是一個去爬 [台灣證券交易所](http://www.twse.com.tw/) 和 [證券櫃檯買賣中心](http://www.tpex.org.tw/) 的爬蟲，秉持著 Open Data 的理念，公開爬蟲公開資料最安心。
 
 ## Note
 
-目前 API 好像壞了，待修理!
+過年重大更新，把爬蟲速度提升很多，也把過去的一些資料補上，詳情請看 [更新日誌](https://github.com/Asoul/tsec/blob/master/CHANGELOG.md)
 
-## 用法
+## Setup
 
-### 直接下載我抓好的資料
+```
+$ git clone https://github.com/Asoul/tsec.git
 
-1. [直接下載 ZIP](https://github.com/Asoul/twse/archive/master.zip)
+$ cd tsec
 
-2. 或來個 command line： `git clone https://github.com/Asoul/twse.git`
+$ pip install -r requirements.txt
 
-抓完後，`data` 內就是所有資料囉
+```
 
-### 沒有的抓全部、有的更新
+## Usage
 
-`python crawl.py`
+爬當日
 
-### 更新該抓的清單 (optional)
+`$ python crawl.py`
 
-1. 先去 `http://www.twse.com.tw/ch/trading/exchange/MI_INDEX/MI_INDEX.php` 下載昨日全部資料
-2. 更改 `getCurrentList.py` 中的 `FILE_NAME`, `FIRST_INDEX`, 和 `LAST_INDEX`
-3. `python getCurrentList.py` 後，就可以在 `stocknumber.csv` 中看到昨天為止還存活的清單了，再接續用 `python crawl.py` 抓。
+爬指定日期
 
-### 爬蟲須知
+```
+$ python crawl.py YYYY MM DD
 
-1. 爬蟲會連續抓到過去某一個月無資料就停止，所以可能有分段超過一個月的股票舊的就不會被抓到。
-2. 有時候爬蟲戳一些不常被搜尋的股票會戳不到東西，目前不知原因為何，目前解法是開 Sikuli 把那些戳不到的清單戳一遍。
-3. 資料每日下午會更新，可以 `git pull` 就好囉。
+e.g.
+
+$ python crawl.py 2016 02 15
+
+```
 
 ## 資料格式
 
@@ -42,13 +44,11 @@
 
 範例：`104/02/13,7599922.0,528270219.0,69.35,69.65,69.35,69.45,0.45,1771.0`
 
-## TODOs
-
-1. 可以把分段超過一個月的股票也抓一抓
-
 ## 資料來源
 
 台灣證券交易所 `http://www.twse.com.tw/`
+
+證券櫃檯買賣中心 `http://www.tpex.org.tw/`
 
 ## 附上免責聲明
 
@@ -56,9 +56,9 @@
 
 ## 聯絡我
 
-有 Bug 麻煩跟我說：`azx754@gmail.com`
+有 Bug 麻煩跟我說，改進的地方或交流也非常歡迎：`azx754@gmail.com`
 
-最後更新時間：`2015/03/03`
+最後更新時間：`2016/02/15`
 
 ## 我的其他專案
 
