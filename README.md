@@ -18,6 +18,8 @@ $ pip install -r requirements.txt
 
 ## Usage
 
+### Command
+
 爬當日
 
 ```
@@ -32,6 +34,20 @@ $ python crawl.py YYYY MM DD
 e.g.
 
 $ python crawl.py 2016 02 15
+```
+
+### Flag
+
+`-b, --back`: 往回爬直到 `2004/2/11`
+
+`-c, --check`: 往回爬 10 天
+
+### 後處理
+
+清除重複的檔案，按日期排序
+
+```
+$ python post_process.py
 ```
 
 ## 資料格式

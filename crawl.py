@@ -127,6 +127,8 @@ def main():
         help='assigned day (format: YYYY MM DD), default is today')
     parser.add_argument('-b', '--back', action='store_true',
         help='crawl back from assigned day until 2004/2/11')
+    parser.add_argument('-c', '--check', action='store_true',
+        help='crawl back 10 days for check data')
 
     args = parser.parse_args()
 
@@ -142,10 +144,11 @@ def main():
     crawler = Crawler()
 
     # If back flag is on, crawl till 2004/2/11, else crawl one day
-    if args.back:
+    if args.back or args.check:
         # otc first day is 2007/04/20
         # tse first day is 2004/02/11
-        last_day = datetime(2004, 2, 11)
+
+        last_day = datetime(2004, 2, 11) if args.back else first_day - timedelta(10)
         max_error = 5
         error_times = 0
         

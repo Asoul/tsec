@@ -2,6 +2,14 @@
 
 Here you can see the full list of notable changes.
 
+## [1.0.1] - 2016/03/27
+
+### Added
+
+- 加上 check flag 往回爬遺失的資料，和重複確認資料，之後每天都會往回爬 10 天
+- 加上 `post_process.py` 會把重複的去掉，和把資料按日期排
+- 補上中間遺失的資料
+
 ## [1.0.0] - 2016/02/15
 
 ### Added
