@@ -28,17 +28,15 @@ def main():
 
         # Load and remove duplicates (use newer)
         with open('{}/{}'.format(FOLDER, file_name), 'rb') as file:
-            reader = csv.reader(file)
-            for row in reader:
-                dict_rows[row[0]] = row
+            for x in file.readlines():
+                dict_rows[x.split(',', 1)[0]] = x
 
         # Sort by date
         rows = [x[1] for x in sorted(
             dict_rows.items(), key=lambda x: string_to_time(x[0]))]
 
         with open('{}/{}'.format(FOLDER, file_name), 'wb') as file:
-            writer = csv.writer(file)
-            writer.writerows(rows)
+            file.writelines(rows)
 
 if __name__ == '__main__':
     main()
