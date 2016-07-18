@@ -24,23 +24,17 @@ def main():
         if not file_name.endswith('.csv'):
             continue
 
-        rows = []
-        dates = []
+        dict_rows = {}
 
         # Load and remove duplicates (use newer)
         with open('{}/{}'.format(FOLDER, file_name), 'rb') as file:
             reader = csv.reader(file)
             for row in reader:
-                try:
-                    index = dates.index(row[0])
-                except ValueError:
-                    rows.append(row)
-                    dates.append(row[0])
-                else:
-                    rows[index] = row
+                dict_rows[row[0]] = row
 
         # Sort by date
-        rows.sort(key=lambda x: string_to_time(x[0]))
+        rows = [x[1] for x in sorted(
+            dict_rows.items(), key=lambda x: string_to_time(x[0]))]
 
         with open('{}/{}'.format(FOLDER, file_name), 'wb') as file:
             writer = csv.writer(file)
