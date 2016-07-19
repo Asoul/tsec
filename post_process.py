@@ -1,4 +1,3 @@
-import csv
 import os
 from datetime import datetime
 
@@ -24,27 +23,19 @@ def main():
         if not file_name.endswith('.csv'):
             continue
 
-        rows = []
-        dates = []
+        dict_rows = {}
 
         # Load and remove duplicates (use newer)
         with open('{}/{}'.format(FOLDER, file_name), 'rb') as file:
-            reader = csv.reader(file)
-            for row in reader:
-                try:
-                    index = dates.index(row[0])
-                except ValueError:
-                    rows.append(row)
-                    dates.append(row[0])
-                else:
-                    rows[index] = row
+            for line in file.readlines():
+                dict_rows[line.split(',', 1)[0]] = line
 
         # Sort by date
-        rows.sort(key=lambda x: string_to_time(x[0]))
+        rows = [row for date, row in sorted(
+            dict_rows.items(), key=lambda x: string_to_time(x[0]))]
 
         with open('{}/{}'.format(FOLDER, file_name), 'wb') as file:
-            writer = csv.writer(file)
-            writer.writerows(rows)
+            file.writelines(rows)
 
 if __name__ == '__main__':
     main()
