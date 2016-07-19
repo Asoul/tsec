@@ -1,4 +1,3 @@
-import csv
 import os
 from datetime import datetime
 
@@ -28,11 +27,11 @@ def main():
 
         # Load and remove duplicates (use newer)
         with open('{}/{}'.format(FOLDER, file_name), 'rb') as file:
-            for x in file.readlines():
-                dict_rows[x.split(',', 1)[0]] = x
+            for line in file.readlines():
+                dict_rows[line.split(',', 1)[0]] = line
 
         # Sort by date
-        rows = [x[1] for x in sorted(
+        rows = [row for date, row in sorted(
             dict_rows.items(), key=lambda x: string_to_time(x[0]))]
 
         with open('{}/{}'.format(FOLDER, file_name), 'wb') as file:
