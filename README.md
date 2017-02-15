@@ -4,7 +4,7 @@
 
 ## Note
 
-2016/02/15 - 過年重大更新，把爬蟲速度提升很多，也把過去的一些資料補上，詳情請看 [更新日誌](https://github.com/Asoul/tsec/blob/master/CHANGELOG.md)
+有問題的話可以到 [Gitter.im](https://gitter.im/taiwan-stock/Lobby) 發問，會盡快回答
 
 ## Setup
 
@@ -72,9 +72,12 @@ $ python post_process.py
 
 ## 聯絡我
 
-有 Bug 麻煩跟我說，改進的地方或交流也非常歡迎：`azx754@gmail.com`
+有 Bug 麻煩跟我說：
 
-最後更新時間：`2016/02/15`
+- [Gitter.im](https://gitter.im/taiwan-stock/Lobby)
+- `azx754@gmail.com`
+
+最後更新時間：`2017/02/15`
 
 ## 我的其他專案
 
