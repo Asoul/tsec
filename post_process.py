@@ -32,7 +32,7 @@ def main():
 
         # Sort by date
         rows = [row for date, row in sorted(
-            dict_rows.items(), key=lambda x: string_to_time(x[0]))]
+            dict_rows.items(), key=lambda x: string_to_time(x[0]), reverse=True)]
 
         with open('{}/{}'.format(FOLDER, file_name), 'wb') as file:
             file.writelines(rows)

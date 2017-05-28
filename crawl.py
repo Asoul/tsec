@@ -11,6 +11,8 @@ import requests
 import argparse
 from lxml import html
 from datetime import datetime, timedelta
+import urllib,urllib2
+import json
 
 from os import mkdir
 from os.path import isdir
@@ -29,37 +31,45 @@ class Crawler():
             row[index] = filter(lambda x: x in string.printable, row[index])
         return row
 
-    def _record(self, stock_id, row):
+    def _record(self, stock_id, row, type):
         ''' Save row to csv file '''
-        f = open('{}/{}.csv'.format(self.prefix, stock_id), 'ab')
-        cw = csv.writer(f, lineterminator='\n')
-        cw.writerow(row)
-        f.close()
+        if type == "otc":
+            if len(stock_id) == 4:
+                f = open('{}/{}.csv'.format(self.prefix, stock_id), 'ab')
+                cw = csv.writer(f, lineterminator='\n')
+                cw.writerow(row)
+                f.close()
+        if type == "twse":
+            f = open('{}/{}.csv'.format(self.prefix, stock_id), 'ab')
+            cw = csv.writer(f, lineterminator='\n')
+            cw.writerow(row)
+            f.close()
 
     def _get_tse_data(self, date_str):
+        date_str = string.split(date_str, "/")
+        date = str(int(date_str[0]) + 1911) + date_str[1] + date_str[2]
         payload = {
-            'download': '',
-            'qdate': date_str,
-            'selectType': 'ALL'
+            'response': 'html',
+            'date': date,
+            'type': 'ALLBUT0999'
         }
-        url = 'http://www.twse.com.tw/ch/trading/exchange/MI_INDEX/MI_INDEX.php'
+
+        url = 'http://www.twse.com.tw/exchangeReport/MI_INDEX'
 
         # Get html page and parse as tree
-        page = requests.post(url, data=payload)
-
-        if not page.ok:
-            logging.error("Can not get TSE data at {}".format(date_str))
-            return
+        req = urllib2.Request(url,  json.dumps(payload), headers={ 'User-Agent': 'Mozilla/5.0' })
+        f = urllib2.urlopen(req)
+        page = f.read()
 
         # Parse page
-        tree = html.fromstring(page.text)
+        tree = html.fromstring(page)
 
-        for tr in tree.xpath('//table[2]/tbody/tr'):
+        for tr in tree.xpath('//table[5]/tbody/tr'):
             tds = tr.xpath('td/text()')
 
             sign = tr.xpath('td/font/text()')
             sign = '-' if len(sign) == 1 and sign[0] == u'－' else ''
-            
+
             row = self._clean_row([
                 date_str, # 日期
                 tds[2], # 成交股數
@@ -72,8 +82,8 @@ class Crawler():
                 tds[3], # 成交筆數
             ])
 
-            self._record(tds[0].strip(), row)
-
+            self._record(tds[0].strip(), row, "twse")
+ 
     def _get_otc_data(self, date_str):
         ttime = str(int(time.time()*100))
         url = 'http://www.tpex.org.tw/web/stock/aftertrading/daily_close_quotes/stk_quote_result.php?l=zh-tw&d={}&_={}'.format(date_str, ttime)
@@ -102,7 +112,7 @@ class Crawler():
                     tr[3], # 漲跌價差
                     tr[10] # 成交筆數
                 ])
-                self._record(tr[0], row)
+                self._record(tr[0], row, "otc")
 
 
     def get_data(self, year, month, day):
@@ -148,7 +158,7 @@ def main():
         # otc first day is 2007/04/20
         # tse first day is 2004/02/11
 
-        last_day = datetime(2004, 2, 11) if args.back else first_day - timedelta(10)
+        last_day = datetime(2017, 1, 1) if args.back else first_day - timedelta(10)
         max_error = 5
         error_times = 0
         
