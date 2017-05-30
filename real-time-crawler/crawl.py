@@ -32,7 +32,7 @@ error_log = open('error.log', 'a')
 
 # 今天年月日
 today = str(date.today().year).zfill(4)+str(date.today().month).zfill(2)+str(date.today().day).zfill(2)
-
+today = '20170526'
 # 如果資料夾不存在，就開新的一天的資料夾
 if not isdir(join('data',today)):
     mkdir(join('data',today))
@@ -70,8 +70,8 @@ else:
             if vals['c'] not in stock_id_list: raise Exception(vals['c']+' c not in stock_id list')
 
             # 如果是在超過凌晨 12 點到隔日開市前，就不要抓
-            if vals['d'] != today:
-                break
+            #if vals['d'] != today:
+                #break
 
             # 資料格式
             # - t：資料時間，ex. `13:30:00`
