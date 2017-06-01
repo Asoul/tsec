@@ -11,7 +11,8 @@ import glob
 import math
 from lxml import html
 from datetime import datetime, timedelta
-
+sys.path.append('../rtcrawler')
+from tw_yahoo_realtime import YahooWebStockCrawler
 from os import mkdir
 from os.path import isdir
 
@@ -73,16 +74,18 @@ class Calc():
         print valma - std_dev * 2
         return std_dev
 
-def main():
+def routine():
     calc = Calc()
-    os.chdir("./data")
+    os.chdir("../ahcrawler/data")
     files = glob.glob('*.csv')
     # iterate over the list getting each file 
     for fle in files:
-        #calc.calc_volma(fle, 20)
+        vol = calc.calc_volma(fle, 10)
         #calc.calc_valma(fle, 20)
-        calc.calc_std_dev(fle, 20)
-        break
-
+        #calc.calc_std_dev(fle, 20)
+        if vol < 200:
+            continue
+        stockid = fle.split('.')[0]
+        print stockid
 if __name__ == '__main__':
-    main()
+    routine()
