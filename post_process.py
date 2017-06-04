@@ -26,7 +26,7 @@ def main():
         dict_rows = {}
 
         # Load and remove duplicates (use newer)
-        with open('{}/{}'.format(FOLDER, file_name), 'rb') as file:
+        with open('{}/{}'.format(FOLDER, file_name), 'r') as file:
             for line in file.readlines():
                 dict_rows[line.split(',', 1)[0]] = line
 
@@ -34,7 +34,7 @@ def main():
         rows = [row for date, row in sorted(
             dict_rows.items(), key=lambda x: string_to_time(x[0]))]
 
-        with open('{}/{}'.format(FOLDER, file_name), 'wb') as file:
+        with open('{}/{}'.format(FOLDER, file_name), 'w') as file:
             file.writelines(rows)
 
 if __name__ == '__main__':

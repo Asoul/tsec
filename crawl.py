@@ -9,7 +9,6 @@ import string
 import logging
 import requests
 import argparse
-from lxml import html
 from datetime import datetime, timedelta
 
 from os import mkdir
@@ -26,55 +25,56 @@ class Crawler():
         ''' Clean comma and spaces '''
         for index, content in enumerate(row):
             row[index] = re.sub(",", "", content.strip())
-            row[index] = filter(lambda x: x in string.printable, row[index])
         return row
 
     def _record(self, stock_id, row):
         ''' Save row to csv file '''
-        f = open('{}/{}.csv'.format(self.prefix, stock_id), 'ab')
+        f = open('{}/{}.csv'.format(self.prefix, stock_id), 'a')
         cw = csv.writer(f, lineterminator='\n')
         cw.writerow(row)
         f.close()
 
-    def _get_tse_data(self, date_str):
-        payload = {
-            'download': '',
-            'qdate': date_str,
-            'selectType': 'ALL'
-        }
-        url = 'http://www.twse.com.tw/ch/trading/exchange/MI_INDEX/MI_INDEX.php'
+    def _get_tse_data(self, date_tuple):
+        date_str = '{0}{1:02d}{2:02d}'.format(date_tuple[0], date_tuple[1], date_tuple[2])
+        url = 'http://www.twse.com.tw/exchangeReport/MI_INDEX'
 
-        # Get html page and parse as tree
-        page = requests.post(url, data=payload)
+        query_params = {
+            'date': date_str,
+            'response': 'json',
+            'type': 'ALL',
+            '_': str(round(time.time() * 1000) - 500)
+        }
+
+        # Get json data
+        page = requests.get(url, params=query_params)
 
         if not page.ok:
             logging.error("Can not get TSE data at {}".format(date_str))
             return
 
-        # Parse page
-        tree = html.fromstring(page.text)
+        content = page.json()
 
-        for tr in tree.xpath('//table[2]/tbody/tr'):
-            tds = tr.xpath('td/text()')
+        # For compatible with original data
+        date_str_mingguo = '{0}/{1:02d}/{2:02d}'.format(date_tuple[0] - 1911, date_tuple[1], date_tuple[2])
 
-            sign = tr.xpath('td/font/text()')
-            sign = '-' if len(sign) == 1 and sign[0] == u'－' else ''
-            
+        for data in content['data5']:
+            sign = '-' if data[9].find('green') > 0 else ''
             row = self._clean_row([
-                date_str, # 日期
-                tds[2], # 成交股數
-                tds[4], # 成交金額
-                tds[5], # 開盤價
-                tds[6], # 最高價
-                tds[7], # 最低價
-                tds[8], # 收盤價
-                sign + tds[9], # 漲跌價差
-                tds[3], # 成交筆數
+                date_str_mingguo, # 日期
+                data[2], # 成交股數
+                data[4], # 成交金額
+                data[5], # 開盤價
+                data[6], # 最高價
+                data[7], # 最低價
+                data[8], # 收盤價
+                sign + data[10], # 漲跌價差
+                data[3], # 成交筆數
             ])
 
-            self._record(tds[0].strip(), row)
+            self._record(data[0].strip(), row)
 
-    def _get_otc_data(self, date_str):
+    def _get_otc_data(self, date_tuple):
+        date_str = '{0}/{1:02d}/{2:02d}'.format(date_tuple[0] - 1911, date_tuple[1], date_tuple[2])
         ttime = str(int(time.time()*100))
         url = 'http://www.tpex.org.tw/web/stock/aftertrading/daily_close_quotes/stk_quote_result.php?l=zh-tw&d={}&_={}'.format(date_str, ttime)
         page = requests.get(url)
@@ -105,12 +105,10 @@ class Crawler():
                 self._record(tr[0], row)
 
 
-    def get_data(self, year, month, day):
-        date_str = '{0}/{1:02d}/{2:02d}'.format(year - 1911, month, day)
-        print 'Crawling {}'.format(date_str)
-        self._get_tse_data(date_str)
-        self._get_otc_data(date_str)
-
+    def get_data(self, date_tuple):
+        print('Crawling {}'.format(date_tuple))
+        self._get_tse_data(date_tuple)
+        self._get_otc_data(date_tuple)
 
 def main():
     # Set logging
@@ -151,10 +149,10 @@ def main():
         last_day = datetime(2004, 2, 11) if args.back else first_day - timedelta(10)
         max_error = 5
         error_times = 0
-        
+
         while error_times < max_error and first_day >= last_day:
             try:
-                crawler.get_data(first_day.year, first_day.month, first_day.day)
+                crawler.get_data((first_day.year, first_day.month, first_day.day))
                 error_times = 0
             except:
                 date_str = first_day.strftime('%Y/%m/%d')
@@ -164,7 +162,7 @@ def main():
             finally:
                 first_day -= timedelta(1)
     else:
-        crawler.get_data(first_day.year, first_day.month, first_day.day)
+        crawler.get_data((first_day.year, first_day.month, first_day.day))
 
 if __name__ == '__main__':
     main()
